@@ -20,16 +20,17 @@ def shopee():
     else:
         keyword = '筆記型電腦'
 
-    article_arr = crawler_shopee(keyword, 1)
-    # print('keyword = ', keyword)
-    # print('article_arr = ', article_arr)
-    df = pd.DataFrame(article_arr, columns=['name', 'link', 'img', 'sales_volume', 'ad'])  # 使用 columns 調整排列順序
-    # print('df = ', df)
-    df['sales_volume'] = df['sales_volume'].astype('int')
-    df = df.sort_values(by='sales_volume', ascending=False)
-    df['key'] = range(1, len(df) + 1) # 增加 index 欄位
+    # article_arr = crawler_shopee(keyword, 1)
+    # # print('keyword = ', keyword)
+    # # print('article_arr = ', article_arr)
+    # df = pd.DataFrame(article_arr, columns=['name', 'link', 'img', 'sales_volume', 'ad'])  # 使用 columns 調整排列順序
+    # # print('df = ', df)
+    # df['sales_volume'] = df['sales_volume'].astype('int')
+    # df = df.sort_values(by='sales_volume', ascending=False)
+    # df['key'] = range(1, len(df) + 1) # 增加 index 欄位
 
-    return df.to_json(orient='records', force_ascii=False)
+    # return df.to_json(orient='records', force_ascii=False)
+    return keyword
 
 def crawler_shopee(keyword, page):
     from selenium import webdriver
