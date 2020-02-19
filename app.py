@@ -7,9 +7,9 @@ import requests
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 
-@app.route('/', methods=['GET'])
+@app.route('/')
 def home():
     return "<h1>Hello Flask!</h1>"
 
