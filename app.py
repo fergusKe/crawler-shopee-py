@@ -20,17 +20,17 @@ def shopee():
     else:
         keyword = '筆記型電腦'
 
-    # article_arr = crawler_shopee(keyword, 1)
-    # # print('keyword = ', keyword)
-    # # print('article_arr = ', article_arr)
-    # df = pd.DataFrame(article_arr, columns=['name', 'link', 'img', 'sales_volume', 'ad'])  # 使用 columns 調整排列順序
-    # # print('df = ', df)
-    # df['sales_volume'] = df['sales_volume'].astype('int')
-    # df = df.sort_values(by='sales_volume', ascending=False)
-    # df['key'] = range(1, len(df) + 1) # 增加 index 欄位
+    article_arr = crawler_shopee(keyword, 1)
+    # print('keyword = ', keyword)
+    print('article_arr = ', article_arr)
+    df = pd.DataFrame(article_arr, columns=['name', 'link', 'img', 'sales_volume', 'ad'])  # 使用 columns 調整排列順序
+    # print('df = ', df)
+    df['sales_volume'] = df['sales_volume'].astype('int')
+    df = df.sort_values(by='sales_volume', ascending=False)
+    df['key'] = range(1, len(df) + 1) # 增加 index 欄位
 
-    # return df.to_json(orient='records', force_ascii=False)
-    return keyword
+    return df.to_json(orient='records', force_ascii=False)
+    # return keyword
 
 def crawler_shopee(keyword, page):
     from selenium import webdriver
@@ -44,15 +44,24 @@ def crawler_shopee(keyword, page):
     import pymysql.cursors
     import re
 
-    options = Options()
-    options.add_argument("window-size=1920,1080")
-    options.add_argument("--headless")  # 不要開啟瀏覽器
-    # options.add_argument('--no-sandbox')  # 以最高权限运行
-    # 谷歌文档提到需要加上这个属性来规避bug
-    options.add_argument('--disable-gpu')
-    #设置不加载图片
-    options.add_argument("blink-settings=imagesEnabled=false")
-    driver = webdriver.Chrome('./chromedriver',options=options)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("window-size=1920,1080")
+    chrome_options.add_argument('--disable-gpu')
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+
+    # options = Options()
+    # options.add_argument("window-size=1920,1080")
+    # options.add_argument("--headless")  # 不要開啟瀏覽器
+    # # options.add_argument('--no-sandbox')  # 以最高权限运行
+    # # 谷歌文档提到需要加上这个属性来规避bug
+    # options.add_argument('--disable-gpu')
+    # #设置不加载图片
+    # options.add_argument("blink-settings=imagesEnabled=false")
+    # driver = webdriver.Chrome('./chromedriver',options=options)
     # driver.maximize_window()  # 瀏覽器視窗設為最大
 
     try:
